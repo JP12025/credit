@@ -16,7 +16,7 @@ Les numéros des cartes Visa commencent par `4`, les American Express par `34`ou
 `51`, `52`, `53`, `54`, or `55` (il y en a d'autre mais on ne considérera que ceux là dans cet exercice).
 
 Mais il y a une autre structure cachée dans les numéros de carte bancaire : leur `checksum`, ou signature en français,
-basée sur l'algorithme de Luhn. Cet signature permet de savoir si un numéros est "correct" sans avoir à interroger 
+basée sur l'algorithme de Luhn. Cette signature permet de savoir si un numéros est "correct" sans avoir à interroger 
 un établissement bancaire. De simples opérations mathématiques sont suffisantes.
 
 Vous devez écrire un programme qui vérifie la validité des numéros de cartes bancaires.
@@ -25,17 +25,19 @@ Vous devez écrire un programme qui vérifie la validité des numéros de cartes
 
 Quelle est la formule magique inventée par Hans Peter Luhn chez IBM ? La recette est plutôt simple pour déterminer 
 si un numéro est (syntaxiquement) valide:
-1. en partant de l'avant dernier chiffre à droite, prenez un chiffre sur deux
+1. en partant de l'avant-dernier chiffre à droite, prenez un chiffre sur deux
 2. multiplier chaque chiffre par 2
 3. faite la somme des chiffres des nombres obtenus
 4. faite également la somme des chiffres qui n'ont pas été multipliés par 2
 5. additionner les deux nombres, si le résultat fini par 0, le numéro est valide.
 
-Ce n'est pas clair ? Prenons l'exemple d'une carte Visa : 4003600000000014
-1. en partant de l'avant dernier chiffre à droite, prenez un chiffre sur deux
-   - ***4***-***0***-***6***-***0***-***0***-***0***-***0***-***1***-
+Ce n'est pas clair ?... 
+
+Prenons l'exemple d'une carte Visa : 4003600000000014
+1. en partant de l'avant-dernier chiffre à droite, prenez un chiffre sur deux
+   - ***4*** ***0*** ***6*** ***0*** ***0*** ***0*** ***0*** ***1*** 
 2. multiplier chaque chiffre par 2
-   - ***8***-***0***-***12***-***0***-***0***-***0***-***0***-***2***-
+   - ***8*** ***0*** ***12*** ***0*** ***0*** ***0*** ***0*** ***2***
 3. faite la somme des chiffres des nombres obtenus
    - ***8***+***0***+***1***+***2***+***0***+***0***+***0***+***0***+***2*** = 13
 4. faite également la somme des chiffres qui n'ont pas été multipliés par 2
