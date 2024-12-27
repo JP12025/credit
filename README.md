@@ -95,16 +95,18 @@ En effet, lorsque vous décidez de tester un programme cela vous amène à vous 
 sur ce que fait votre programme et les cas particuliers.
 
 Voici quelques exemples de nombres valides :
-- 4301050403060 VISA
-- 7060208010802040 VISA
-- 5150400020204060 MASTERCARD
-- 5530603080700080 MASTERCARD
-- 340901000708030 AMEX
-- 340702050700020 AMEX
+- `4301050403060 VISA`
+- `4070605020003060 VISA`
+- `5150400020204060 MASTERCARD`
+- `5530603080700080 MASTERCARD`
+- `340901000708030 AMEX`
+- `340702050700020 AMEX`
 
 > [!NOTE]
 > Si vous savez vérifier un numéro, vous savez aussi le générer.
-> Ne faites un générateur que si vous estimez avoir le temps pour ça...
+> Vous pouvez donc écrire un générateur de code aléatoire étant donné un type de carte en entrée.
+> Évidemment, ne le faites que si vous avez le temps pour ça... cela ne vous rapportera que des 
+> PEX
 
 # Le rendu via git
 A tout moment, vous pouvez soumettre votre travail sur github visa un `push`.
