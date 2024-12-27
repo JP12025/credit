@@ -40,13 +40,22 @@ Prenons l'exemple d'une carte Visa 4003600000000014.
 4 0 6 0 0 0 0 1
 ```
 2. multiplier chaque chiffre par 2
-   - ***8*** ***0*** ***12*** ***0*** ***0*** ***0*** ***0*** ***2***
+```
+8 0 12 0 0 0 0 2
+```
 3. faite la somme des chiffres des nombres obtenus
-   - ***8***+***0***+***1***+***2***+***0***+***0***+***0***+***0***+***2*** = 13
+```
+8 + 0 + 1 + 2 + 0 + 0 + 0 + 0 + 2 = 13
+```
 4. faite également la somme des chiffres qui n'ont pas été multipliés par 2
-   - 0+3+0+0+0+0+0+4 = 7
+```
+0 + 3 + 0 + 0 + 0 + 0 + 0 + 4 = 7
+```
 5. additionner les deux nombres, si le résultat fini par 0, le numéro est valide.
-   - 7+13=20 qui fini par 0, le numéro est valide !
+```
+7 + 13 = 20
+```
+Le numéro `4003600000000014` est valide !
 
 # Implémentation
 
