@@ -37,7 +37,6 @@ Prenons l'exemple d'une carte Visa 4003600000000014.
 1. en partant de l'avant-dernier chiffre à droite, prenez un chiffre sur deux
 ```
 4003600000000014
-| | | | | | | | 
 4 0 6 0 0 0 0 1
 ```
 2. multiplier chaque chiffre par 2
