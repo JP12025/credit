@@ -20,11 +20,12 @@ Actually, that’s a bit of an exaggeration, because credit card numbers actuall
 
 But credit card numbers also have a "***checksum***” built into them, a mathematical relationship between at least one number and others. That checksum enables computers (or humans who like math) to detect typos (e.g., transpositions), if not fraudulent numbers, without having to query a database, which can be slow. Of course, a dishonest mathematician could certainly craft a fake number that nonetheless respects the mathematical constraint, so a database lookup is still necessary for more rigorous checks.
 
-You have to implement a program that checks the validity of a given credit card number.
+You have to implement a program that checks the validity of a given credit card number based on its length, 
+starting digits and checksum.
 
 ## Luhn's Algorithm
 
-So what’s the secret formula? Well, most cards use an algorithm invented by [Hans Peter Luhn](https://en.wikipedia.org/wiki/Hans_Peter_Luhn) of IBM. According to Luhn’s algorithm, you can determine if a credit card number is (syntactically) valid as follows:
+So what’s the secret formula? Well, most cards use an algorithm invented by [Hans Peter Luhn](https://en.wikipedia.org/wiki/Hans_Peter_Luhn) of IBM. According to Luhn’s algorithm, you can determine if a credit card number is (syntactically) valid in 5 steps:
 1. Take every other digit, from right-to-left, starting with the second-to-last digit.
 2. Multiply each digit by 2.
 3. Add those products’ digits together.
@@ -57,9 +58,9 @@ That’s kind of confusing, so let’s try an example with 4003600000000014 (VIS
 7 + 13 = 20
 ```
 The total’s last digit is `0`, `4003600000000014` is valid and it's a `VISA` number
-because it starts with `4`
+because it starts with `4` and is 16-digits long.
 
-## Implémentation
+## Implementation Details
 
 In the file called `credit.py`, write a program that prompts the user for a credit card number and then reports whether it is a valid American Express (`AMEX`), MasterCard (`MASTERCARD`), or Visa (`VISA`) card number, per the definitions of each’s format herein. So that we can automate some tests of your code, we ask that your program’s last line of output be `AMEX` or `MASTERCARD` or `VISA` or `INVALID`, nothing more, nothing less. 
 
@@ -96,7 +97,7 @@ By Sunday, january 12, 2025 at 11:59 PM
 
 - Test your script with command `./check credit.py`
 
-Here are a few valid card numbers:
+Here are a few other valid card numbers:
 - `4301050403060 VISA`
 - `4070605020003060 VISA`
 - `5150400020204060 MASTERCARD`
@@ -104,7 +105,7 @@ Here are a few valid card numbers:
 - `340901000708030 AMEX`
 - `340702050700020 AMEX`
 
-> [!TIPS]
+> [!TIP]
 > You may find many card numbers for test on the web.
 > Check and double-check your code on every card number you may find.
 
