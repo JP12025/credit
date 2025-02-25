@@ -1,81 +1,118 @@
 #! /usr/bin/env sh
 
-# File to test
-EXP_SCRIPT="credit.py"
+# Script File to test
+PY_SCRIPT="credit.py"
+JL_SCRIPT="credit.jl"
 
 # Text colors
 COLOR_REST="$(tput sgr0)"
 COLOR_RED="$(tput setaf 1)"
 COLOR_GREEN="$(tput setaf 2)"
 
-# Test counters
-NB_TEST_OK=0
-NB_TEST_TOTAL=0
-
-##################################################
-# check command line params
-##################################################
+################################################################################
+# Check command line arguments
+# Usage: ./check [-p, -j] script_filename
+#   -p = python
+#   -j = julia
+#   script_filename = file to test
+################################################################################
 GIVEN_SCRIPT=""
-if [ $# -eq 1 ]
+LANG=""
+if [ $# -eq 2 ]
 then
-    GIVEN_SCRIPT="${1}"
+    if [ "${1}" = "-p" ]
+    then
+        LANG="python"
+        EXP_SCRIPT=${PY_SCRIPT}
+    else
+        if [ "${1}" = "-j" ]
+        then
+            LANG="julia"
+            EXP_SCRIPT=${JL_SCRIPT}
+        else
+            printf "Usage: ./check [-p, -j] script_filename\n"
+            exit
+        fi
+    fi
+    GIVEN_SCRIPT="${2}"
 else
-    printf "Give the script name in command line\n"
-fi
-
-##################################################
-# Check if python is available
-##################################################
-pyapp=`which python`
-if [ "${pyapp:0:1}" == "/" ]
-then
-    python --version
-else
-    printf "Python not found\n"
+    printf "Usage: ./check [-p, -j] script_filename\n"
     exit
 fi
 
-##################################################
-# Check if the script has been given
-##################################################
+################################################################################
+# Check if the script filename is the expected filename
+################################################################################
 if [ "${GIVEN_SCRIPT}" != "${EXP_SCRIPT}" ]
 then
-    printf "Give the script name in command line\n"
+    printf "Script name should be: ${EXP_SCRIPT}\n"
     exit
 fi
 
-##################################################
+################################################################################
 # Check if the given script exists
-##################################################
+################################################################################
 if [ ! -f "${EXP_SCRIPT}" ]
 then
-    printf "File not found: ${EXP_SCRIPT}"
+    printf "File not found: ${EXP_SCRIPT}\n"
     exit
 fi
 
-##################################################
+################################################################################
+# Check if python or julia executable is available
+################################################################################
+pyapp=`which ${LANG}`
+if [ "${pyapp:0:1}" == "/" ]
+then
+    ${LANG} --version
+else
+    printf "${LANG} not found\n"
+    exit
+fi
+
+################################################################################
 # Test function
-##################################################
+################################################################################
 run_test () {
-    TEST_NAME=$1
-    TEST_NUM=$2
-    TEST_IN=.test/${TEST_NUM}.in
-    TEST_EXP=.test/${TEST_NUM}.exp
-    TEST_OUT=".test/${TEST_NUM}_test.out"
-    TEST_DIFF=".test/${TEST_NUM}_test.diff"
-    python ${EXP_SCRIPT} < ${TEST_IN}  > ${TEST_OUT}
+    # Get Parameters
+    TEST_LABEL=$1
+    TEST_NUMBER=$2
+    TEST_PARAMS=$3
+    TEST_STDIN=$4
+    # Set files for testing
+    TEST_IN=.test/${TEST_NUMBER}.in
+    TEST_EXP=.test/${TEST_NUMBER}.exp
+    TEST_OUT=".test/${TEST_NUMBER}_test.out"
+    TEST_DIFF=".test/${TEST_NUMBER}_test.diff"
+    # Run the script
+    if [ "${TEST_STDIN}" = "" ]
+    then
+        ${LANG} ${EXP_SCRIPT} ${TEST_PARAMS} > ${TEST_OUT}
+        # ./${EXP_SCRIPT} ${TEST_PARAMS} > ${TEST_OUT}
+    else
+        ${LANG} ${EXP_SCRIPT} ${TEST_PARAMS} < ${TEST_IN} > ${TEST_OUT}
+        # ./${EXP_SCRIPT} ${TEST_PARAMS} < ${TEST_IN} > ${TEST_OUT}
+    fi
+    
+    NB_LINES=`cat ${TEST_OUT} | wc -c`
+    if [ ${NB_LINES} -eq 0 ]
+    then
+        printf "\n"
+        printf "${TEST_NUMBER} ${COLOR_RED}\xE2\x9C\x97${COLOR_REST} ${TEST_LABEL}\n"
+        printf "Your script prints nothing\n"
+    fi
     diff ${TEST_EXP} ${TEST_OUT} > ${TEST_DIFF}
     NB_DIFF=`cat ${TEST_DIFF} | wc -l`
     NB_TEST_TOTAL=$((NB_TEST_TOTAL+1))
     if [ ${NB_DIFF} -eq 0 ]
     then
-        printf "${TEST_NUM} ${COLOR_GREEN}\xE2\x9C\x94${COLOR_REST} ${TEST_NAME}\n"
+        printf "${TEST_NUMBER} ${COLOR_GREEN}\xE2\x9C\x94${COLOR_REST} ${TEST_LABEL}\n"
         rm ${TEST_OUT}
         rm ${TEST_DIFF}
         NB_TEST_OK=$((NB_TEST_OK+1))
     else
         printf "\n"
-        printf "${TEST_NUM} ${COLOR_RED}\xE2\x9C\x97${COLOR_REST} ${TEST_NAME}\n"
+        printf "${TEST_NUMBER} ${COLOR_RED}\xE2\x9C\x97${COLOR_REST} ${TEST_LABEL}\n"
         printf "${COLOR_GREEN}Expected${COLOR_REST}\n"
         grep "<" ${TEST_DIFF}
         printf "${COLOR_RED}Given${COLOR_REST}\n"
@@ -84,14 +121,19 @@ run_test () {
     fi
 }
 
-##################################################
+################################################################################
 # Run tests
-##################################################
-run_test "VISA 4502010104090" "01"
-run_test "VISA 4070105020807040" "02"
-run_test "MASTERCARD 5110201050803030" "03"
-run_test "AMEX 340706080907000" "04"
-run_test "INVALID 347067893866179" "05"
+################################################################################
+
+# Test counters
+NB_TEST_OK=0
+NB_TEST_TOTAL=0
+
+run_test "VISA 4502010104090" "01" "" "in"
+run_test "VISA 4070105020807040" "02" "" "in"
+run_test "MASTERCARD 5110201050803030" "03" "" "in"
+run_test "AMEX 340706080907000" "04" "" "in"
+run_test "INVALID 347067893866179" "05" "" "in"
 
 ##################################################
 # Print Summary
