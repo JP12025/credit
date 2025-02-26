@@ -62,7 +62,7 @@ because it starts with `4` and is 16-digits long.
 
 ## Implementation Details
 
-In the file called `credit.py`, write a program that prompts the user for a credit card number and then reports whether it is a valid American Express (`AMEX`), MasterCard (`MASTERCARD`), or Visa (`VISA`) card number, per the definitions of each’s format herein. So that we can automate some tests of your code, we ask that your program’s last line of output be `AMEX` or `MASTERCARD` or `VISA` or `INVALID`, nothing more, nothing less. 
+In the file called `credit.py` (Python) or `credit.jl` (Julia), write a program that prompts the user for a credit card number and then reports whether it is a valid American Express (`AMEX`), MasterCard (`MASTERCARD`), or Visa (`VISA`) card number, per the definitions of each’s format herein. So that we can automate some tests of your code, we ask that your program’s last line of output be `AMEX` or `MASTERCARD` or `VISA` or `INVALID`, nothing more, nothing less. 
 
 For simplicity, you may assume that the user’s input will be entirely numeric (i.e., devoid of hyphens, as might be printed on an actual card) and that it won’t have leading zeroes.
 
@@ -70,6 +70,9 @@ Consider the below representative of how your own program should behave when pas
 
 ```bash
 $ python credit.py
+Number: 4003600000000014
+VISA
+$ julia credit.jl
 Number: 4003600000000014
 VISA
 ```
@@ -84,7 +87,7 @@ VISA
 
 An example of invalid number:
 ```bash
-$ python credit.py
+$ julia credit.jl
 Number: 6176292929
 INVALID
 ````
@@ -95,7 +98,9 @@ By Sunday, january 19, 2025 at 11:59 PM
 
 # How to Test
 
-- Test your script with command `./check credit.py`
+Test your script with command:
+- `./check -p credit.py` if you write Python code
+- `./check -j credit.jl` if you write Julia code
 
 Here are a few other valid card numbers:
 - `4301050403060 VISA`
