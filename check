@@ -93,7 +93,7 @@ run_test () {
         ${LANG} ${EXP_SCRIPT} ${TEST_PARAMS} < ${TEST_IN} > ${TEST_OUT}
         # ./${EXP_SCRIPT} ${TEST_PARAMS} < ${TEST_IN} > ${TEST_OUT}
     fi
-    
+    dos2unix ${TEST_OUT}
     NB_LINES=`cat ${TEST_OUT} | wc -c`
     if [ ${NB_LINES} -eq 0 ]
     then
