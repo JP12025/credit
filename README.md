@@ -38,22 +38,22 @@ That’s kind of confusing, so let’s try an example with 4003600000000014 (VIS
 4003600000000014
 4 0 6 0 0 0 0 1
 ```
-1. Multiply each digit by 2.
+2. Multiply each digit by 2.
 ```
 4 0 6  0 0 0 0 1
 8 0 12 0 0 0 0 2
 ```
-1. Add those products’ digits together.
+3. Add those products’ digits together.
 ```
 8 0 12  0 0 0 0 2
 8+0+1+2+0+0+0+0+2 = 13
 ```
-1. Get the sum of the digits that weren’t multiplied by 2.
+4. Get the sum of the digits that weren’t multiplied by 2.
 ```
 4003600000000014
  0+3+0+0+0+0+0+4 = 7
 ```
-1. Sum results from steps 3 and 4. 
+5. Sum results from steps 3 and 4. 
 ```
 7 + 13 = 20
 ```
@@ -62,9 +62,9 @@ because it starts with `4` and is 16-digits long.
 
 ## Implementation Details
 
-In the file called `credit.py` (Python) or `credit.jl` (Julia), write a program that prompts the user for a credit card number and then reports whether it is a valid American Express (`AMEX`), MasterCard (`MASTERCARD`), or Visa (`VISA`) card number, per the definitions of each’s format herein. So that we can automate some tests of your code, we ask that your program’s last line of output be `AMEX` or `MASTERCARD` or `VISA` or `INVALID`, nothing more, nothing less. 
+In a file called `credit.py`, write a program that prompts the user for a credit card number and then reports whether it is a valid American Express (`AMEX`), MasterCard (`MASTERCARD`), or Visa (`VISA`) card number, per the definitions of each’s format herein. So that we can automate some tests of your code, we ask that your program prints only one line after the question(s): `AMEX` or `MASTERCARD` or `VISA` or `INVALID`, nothing more, nothing less.
 
-For simplicity, you may assume that the user’s input will be entirely numeric (i.e., devoid of hyphens, as might be printed on an actual card) and that it won’t have leading zeroes.
+For simplicity, you may assume that a card number won’t have leading zeroes.
 
 Consider the below representative of how your own program should behave when passed a valid credit card number.
 
@@ -72,11 +72,9 @@ Consider the below representative of how your own program should behave when pas
 $ python credit.py
 Number: 4003600000000014
 VISA
-$ julia credit.jl
-Number: 4003600000000014
-VISA
 ```
-Re-prompt the user, again and again as needed, if their input is not an `int`. 
+Re-prompt the user, again and again as needed, if their input contains anything else than digits (hyphens, spaces, letters...) or is empty.
+Don't use `try/except` structure, it's not needed here. A `while` loop is ok.
 ```bash
 $ python credit.py
 Number: 4003-6000-0000-0014
@@ -85,22 +83,28 @@ Number: 4003600000000014
 VISA
 ```
 
-An example of invalid number:
+> [!TIP]
+> To check that a string (`str`) contains only digits, you may use `isdigit()`. ([Python ref](https://docs.python.org/3/library/stdtypes.html#str.isdigit))
+
+A number made only of digits is never re-prompted, even if it is not a valid card number: your program prints `INVALID`.
 ```bash
-$ julia credit.jl
+$ python credit.py
 Number: 6176292929
 INVALID
-````
-
-# When to Do it
-
-By Sunday, january 11, 2025 at 11:59 PM
+```
 
 # How to Test
 
-Test your script with command:
-- `./check -p credit.py` if you write Python code
-- `./check -j credit.jl` if you write Julia code
+Test your program from the exercise folder with:
+
+```bash
+python test_credit.py
+```
+
+(use `python3` instead of `python` if that is how you run Python on your computer).
+
+The script runs your program as a user would: it types some answers to the `Number: ` question, then checks what your program prints.
+When a test fails, it explains what is wrong, shows the details of the card number (length, first digits, Luhn total) and, when it can, the mistake that probably causes it.
 
 Here are a few other valid card numbers:
 - `4301050403060 VISA`
@@ -126,4 +130,4 @@ Once you're done with all tasks, submit all your python files on Moodle
 
 # Licence
 
-This course is freely inspird from [CS50’s Introduction to Computer Science](https://cs50.harvard.edu/x/2025/) Harvard. It is licensed under a [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) license. 
+This course is freely inspired by [CS50’s Introduction to Computer Science](https://cs50.harvard.edu/x/2025/) Harvard. It is licensed under a [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) license. 
