@@ -68,11 +68,8 @@ For simplicity, you may assume that a card number won’t have leading zeroes.
 
 Consider the below representative of how your own program should behave when passed a valid credit card number.
 
-```bash
-$ python credit.py
-Number: 4003600000000014
-VISA
-```
+![Demo of credit.py](credit.gif)
+
 Re-prompt the user, again and again as needed, if their input contains anything else than digits (hyphens, spaces, letters...) or is empty.
 Don't use `try/except` structure, it's not needed here. A `while` loop is ok.
 ```bash
